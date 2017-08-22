@@ -1,0 +1,21 @@
+body {
+  padding-top: 32px;
+  background: linear-gradient(to top, #F44336, #B71C1C);
+  height:100vh;
+  color: #ffffff;
+}
+.jumbotron {
+  color: #000000;
+  border: 18px dotted #ffcd19;
+  background-color: #ffffff;
+}
+#show-tickets {
+  display: none;
+}
+.ticket {
+  cursor: pointer;
+  color: #ffcd19;
+}
+.ticket:hover {
+  text-decoration: underline;
+}
