@@ -1,19 +1,20 @@
 // Backend
-function Ticket(name, movie, time, age) {
+function Ticket(name, movie, time, price, age) {
   this.name = name;
   this.movie = movie;
   this.time = time;
+  this.price = price;
   this.age = age;
 }
 Ticket.prototype.finalPrice = function() {
-  var basePrice = 10;
+  // var basePrice = 10;
   // Where we put code to additionally modify the price
-  return basePrice - this.age;
+  return this.price - this.age;
 };
 
-var starWars = {name: "Star Wars VIII", times: ["12:00pm", "1:00pm", "4:00pm", "6:00pm", "9:00pm", "11:00pm"]};
-var it = {name: "It", times: ["2:00pm", "8:00pm", "9:00pm", "11:00pm", "12:00am"]};
-var citizenKane = {name: "Citizen Kane", times: ["11:00am", "1:00pm", "3:00pm"]};
+var starWars = {name: "Star Wars VIII", times: [{time: "12:00pm", price: 7.99}, {time: "1:00pm", price: 7.99}, {time: "4:00pm", price: 7.99}, {time: "6:00pm", price: 9.99}, {time: "9:00pm", price: 9.99}, {time: "11:00pm", price: 9.99}]};
+var it = {name: "It", times: [{time: "2:00pm", price: 7.99}, {time: "8:00pm", price: 9.99}, {time: "9:00pm", price: 9.99}, {time: "11:00pm", price: 9.99}, {time: "12:00am", price: 9.99}]};
+var citizenKane = {name: "Citizen Kane", times: [{time: "11:00am", price: 7.99}, {time: "1:00pm", price: 7.99}, {time: "3:00pm", price: 7.99}]};
 
 var movies = [starWars, it, citizenKane];
 
@@ -24,8 +25,8 @@ $(document).ready(function() {
     var selectedMovieTimes = movies[$('#select-movie').val()].times;
     for(var i = 0; i < selectedMovieTimes.length; i++) {
       var optionElement = document.createElement("option");
-      optionElement.textContent = selectedMovieTimes[i];
-      optionElement.value = selectedMovieTimes[i];
+      optionElement.textContent = selectedMovieTimes[i].time;
+      optionElement.value = selectedMovieTimes[i].price;
       select.appendChild(optionElement);
     }
   });
@@ -33,16 +34,22 @@ $(document).ready(function() {
   $("form#ticket-form").submit(function(event){
     event.preventDefault();
 
-    var name = "Bob";
-    var movieName = $("#select-movie").val();
-    var movieTime = $("#select-time").val();
+    var name = $("#name").val();
+    var movieName = movies[$("#select-movie").val()].name;
+    var movieTime = $("#select-time option:selected").text();
+    var moviePrice = $("#select-time").val();
     var moviePriceMod = $("#select-age").val();
 
-    var newTicket = new Ticket(name, movieName, movieTime, moviePriceMod);
-    alert(newTicket.finalPrice());
+    var newTicket = new Ticket(name, movieName, movieTime, moviePrice, moviePriceMod);
 
-    // $(".ticket").last().click(function()) {
-    //
-    // }
+    $('ul#tickets').append('<li><span class="ticket">' + newTicket.name + '</span></li>');
+
+    $(".ticket").last().click(function() {
+      $("#show-ticket").show();
+      $("#show-ticket h2").text(newTicket.name);
+      $(".movie-name").text(newTicket.movie);
+      $(".movie-time").text(newTicket.time);
+      $(".movie-price").text("$"+newTicket.finalPrice());
+    });
   });
 });

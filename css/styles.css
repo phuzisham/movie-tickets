@@ -9,7 +9,7 @@ body {
   border: 18px dotted #ffcd19;
   background-color: #ffffff;
 }
-#show-tickets {
+#show-ticket {
   display: none;
 }
 .ticket {
